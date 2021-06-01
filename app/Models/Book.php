@@ -34,4 +34,8 @@ class Book extends Model
     {
         $this->attributes['title'] = strtoupper($value);
     }
+    public function setDescriptionAttribute($description)
+    {
+        $this->attributes['description'] = strtoupper($description);
+    }
 }

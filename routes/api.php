@@ -14,12 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::post('register', [RegisterController::class, 'register']);
+// Route::post('login', [RegisterController::class, 'login']);
+Route::post('register', [\App\Http\Controllers\passportAuthController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\passportAuthController::class, 'login']);
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::group(['middleware'=>['auth:api']],function(){
+	Route::post('/logout', [\App\Http\Controllers\passportAuthController::class, 'logout']);
+    Route::post('/save-book', [\App\Http\Controllers\BookController::class, 'store']);
+	Route::post('/user-books', [\App\Http\Controllers\UserBooksController::class, 'store']);
+	Route::get('/user-books', [\App\Http\Controllers\UserBooksController::class, 'userBooks']);
+	Route::get('/books/{name}', [\App\Http\Controllers\BookController::class, 'index']);
+});
+
 Route::get('/author', [\App\Http\Controllers\AuthorsController::class, 'index']);
-Route::get('/books/{name}', [\App\Http\Controllers\BookController::class, 'index']);
-Route::post('/save-book', [\App\Http\Controllers\BookController::class, 'store']);
-Route::post('/user-books', [\App\Http\Controllers\UserBooksController::class, 'store']);
-Route::get('/user-books', [\App\Http\Controllers\UserBooksController::class, 'userBooks']);
+

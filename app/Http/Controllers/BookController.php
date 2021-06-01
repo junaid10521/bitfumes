@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\DB;
 class BookController extends Controller
 {
     public function index($name){
-        DB::connection()->enableQueryLog();
+        // DB::connection()->enableQueryLog();
 
         $books = Book::with(['author', 'usersbooks'])
             ->Search($name)
             ->get();
 
-        $queries = DB::getQueryLog();
+        // $queries = DB::getQueryLog();
 //        dd($queries);
 
         return response()->json(['data', $books]);
